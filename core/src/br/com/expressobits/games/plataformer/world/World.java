@@ -16,6 +16,7 @@ import net.namekdev.entity_tracker.ui.EntityTrackerMainWindow;
 
 public class World {
 
+    private final EntityTrackerMainWindow entityTrackerMainWindow;
     private int[][][] map = new int[80][45][2];
 
     private com.artemis.World world;
@@ -29,7 +30,8 @@ public class World {
                 .with(new SpriteRenderSystem(camera));
 
         if(Plataformer.DEBUG){
-            worldConfigurationBuilder.with(new EntityTracker(new EntityTrackerMainWindow()));
+            entityTrackerMainWindow = new EntityTrackerMainWindow(false,false);
+            worldConfigurationBuilder.with(new EntityTracker(entityTrackerMainWindow));
         }
         WorldConfiguration configuration = worldConfigurationBuilder.build();
         this.world = new com.artemis.World(configuration);
@@ -87,4 +89,7 @@ public class World {
 
     }
 
+    public EntityTrackerMainWindow getEntityTrackerMainWindow() {
+        return entityTrackerMainWindow;
+    }
 }
