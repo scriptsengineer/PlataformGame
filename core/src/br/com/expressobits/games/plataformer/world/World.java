@@ -1,16 +1,37 @@
 package br.com.expressobits.games.plataformer.world;
 
+import br.com.expressobits.games.plataformer.Plataformer;
 import br.com.expressobits.games.plataformer.block.Block;
 import br.com.expressobits.games.plataformer.dictionary.Blocks;
+import br.com.expressobits.games.plataformer.entity.EntitiesFactory;
+import br.com.expressobits.games.plataformer.entity.system.SpriteRenderSystem;
+import br.com.expressobits.games.plataformer.entity.system.TileRenderSystem;
+import com.artemis.WorldConfiguration;
+import com.artemis.WorldConfigurationBuilder;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import net.namekdev.entity_tracker.EntityTracker;
+import net.namekdev.entity_tracker.ui.EntityTrackerMainWindow;
 
 public class World {
 
     private int[][][] map = new int[80][45][2];
 
-    public World(){
+    private com.artemis.World world;
 
+    public World(OrthographicCamera camera){
+        WorldConfigurationBuilder worldConfigurationBuilder = new WorldConfigurationBuilder();
+        worldConfigurationBuilder
+                .with(new TileRenderSystem(this,camera))
+                .with(new SpriteRenderSystem(camera));
+
+        if(Plataformer.DEBUG){
+            worldConfigurationBuilder.with(new EntityTracker(new EntityTrackerMainWindow()));
+        }
+        WorldConfiguration configuration = worldConfigurationBuilder.build();
+        this.world = new com.artemis.World(configuration);
+        EntitiesFactory.createPlayer( world, 0, 0);
     }
 
     /**
@@ -32,37 +53,9 @@ public class World {
         }
     }
 
-    public void render(Batch batch){
-        renderBackground(batch);
-        renderForeground(batch);
-    }
-
-    private void renderBackground(Batch batch) {
-        Texture texture = null;
-
-        for (int x = 0; x < getWidth(); x++) {
-            for (int y = 0; y < getHeight(); y++) {
-                texture = getBlock(x,y,0).texture;
-
-                if (texture != null) {
-                    batch.draw(texture, x * Block.TILE_SIZE, y * Block.TILE_SIZE);
-                }
-            }
-        }
-    }
-
-    private void renderForeground(Batch batch) {
-        Texture texture = null;
-
-        for (int x = 0; x < getWidth(); x++) {
-            for (int y = 0; y < getHeight(); y++) {
-                texture = getBlock(x,y,0).texture;
-
-                if (texture != null) {
-                    batch.draw(texture, x * Block.TILE_SIZE, y * Block.TILE_SIZE);
-                }
-            }
-        }
+    public void update(float deltaTime) {
+        world.setDelta(deltaTime);
+        world.process();
     }
 
     public Block getBlock(int x, int y, int layer){
@@ -80,4 +73,5 @@ public class World {
     public int getLayers(){
         return map[0][0].length;
     }
+
 }
