@@ -20,6 +20,8 @@ public class World {
 
     private com.artemis.World world;
 
+    private int seaLevel = 7;
+
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigurationBuilder = new WorldConfigurationBuilder();
         worldConfigurationBuilder
@@ -41,11 +43,11 @@ public class World {
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 for(int l = 0; l < getLayers(); l++){
-                    if(y < 2){
+                    if(y < getSeaLevel() - 5){
                         map[x][y][l] = Blocks.getIdByBlock(Blocks.OBSIDIAN);
-                    }else if(y<4){
+                    }else if(y< getSeaLevel() - 2){
                         map[x][y][l] = Blocks.getIdByBlock(Blocks.COBBLESTONE);
-                    }else if(y<5){
+                    }else if(y < getSeaLevel()){
                         map[x][y][l] = Blocks.getIdByBlock(Blocks.DIRT);
                     }
                 }
@@ -72,6 +74,17 @@ public class World {
 
     public int getLayers(){
         return map[0][0].length;
+    }
+
+    public int getSeaLevel() {
+        return seaLevel;
+    }
+
+    /**
+     * Desaloca recursos
+     */
+    public void dispose(){
+
     }
 
 }

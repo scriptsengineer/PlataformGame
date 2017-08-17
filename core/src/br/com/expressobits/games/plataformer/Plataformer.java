@@ -59,6 +59,7 @@ public class Plataformer extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		world.dispose();
 	}
 
 	public static Plataformer getInstance() {
