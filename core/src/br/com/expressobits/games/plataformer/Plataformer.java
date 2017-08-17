@@ -24,9 +24,7 @@ public class Plataformer extends ApplicationAdapter {
 
 	protected World world;
 
-	public Plataformer(){
-		instance = this;
-	}
+	private Plataformer(){}
 	
 	@Override
 	public void create () {
@@ -64,6 +62,9 @@ public class Plataformer extends ApplicationAdapter {
 	}
 
 	public static Plataformer getInstance() {
+		if(instance == null){
+			instance = new Plataformer();
+		}
 		return instance;
 	}
 }

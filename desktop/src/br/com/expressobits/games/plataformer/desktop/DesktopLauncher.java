@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		config.setWindowedMode(1280,720);
 		config.setResizable(false);
 		config.useVsync(true);
-		new Lwjgl3Application(new Plataformer(), config);
+		new Lwjgl3Application(Plataformer.getInstance(), config);
 	}
 }
