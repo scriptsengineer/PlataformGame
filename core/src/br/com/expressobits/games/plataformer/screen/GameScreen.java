@@ -4,10 +4,7 @@ import br.com.expressobits.games.plataformer.Plataformer;
 import br.com.expressobits.games.plataformer.entity.component.RigidBodyComponent;
 import br.com.expressobits.games.plataformer.entity.component.TransformComponent;
 import br.com.expressobits.games.plataformer.world.World;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -55,9 +52,11 @@ public class GameScreen extends ScreenAdapter {
         world.update(delta);
 
         if(Plataformer.DEBUG){
-            if(Gdx.input.isKeyPressed(Input.Keys.B)){
-                if(world.getEntityTrackerMainWindow()!=null){
-                    world.getEntityTrackerMainWindow().setVisible(!world.getEntityTrackerMainWindow().isVisible());
+            if(Gdx.app.getType().equals(Application.ApplicationType.Desktop)){
+                if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
+                    if(world.getEntityTrackerMainWindow()!=null){
+                        world.getEntityTrackerMainWindow().setVisible(!world.getEntityTrackerMainWindow().isVisible());
+                    }
                 }
             }
         }

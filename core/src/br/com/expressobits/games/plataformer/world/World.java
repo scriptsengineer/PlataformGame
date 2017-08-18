@@ -10,6 +10,8 @@ import br.com.expressobits.games.plataformer.entity.system.TileRenderSystem;
 import com.artemis.Entity;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -18,7 +20,7 @@ import net.namekdev.entity_tracker.ui.EntityTrackerMainWindow;
 
 public class World {
 
-    private final EntityTrackerMainWindow entityTrackerMainWindow;
+    private EntityTrackerMainWindow entityTrackerMainWindow;
     private int[][][] map = new int[80][45][2];
 
     private com.artemis.World world;
@@ -37,8 +39,10 @@ public class World {
                 .with(new SpriteRenderSystem(camera));
 
         if(Plataformer.DEBUG){
-            entityTrackerMainWindow = new EntityTrackerMainWindow(false,false);
-            worldConfigurationBuilder.with(new EntityTracker(entityTrackerMainWindow));
+            if(Gdx.app.getType().equals(Application.ApplicationType.Desktop)){
+                entityTrackerMainWindow = new EntityTrackerMainWindow(false,false);
+                worldConfigurationBuilder.with(new EntityTracker(entityTrackerMainWindow));
+            }
         }
         WorldConfiguration configuration = worldConfigurationBuilder.build();
         this.world = new com.artemis.World(configuration);
