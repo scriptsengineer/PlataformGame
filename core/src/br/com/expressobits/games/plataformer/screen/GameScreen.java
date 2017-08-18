@@ -1,9 +1,12 @@
 package br.com.expressobits.games.plataformer.screen;
 
 import br.com.expressobits.games.plataformer.Plataformer;
+import br.com.expressobits.games.plataformer.entity.component.RigidBodyComponent;
+import br.com.expressobits.games.plataformer.entity.component.TransformComponent;
 import br.com.expressobits.games.plataformer.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -31,6 +34,17 @@ public class GameScreen extends ScreenAdapter {
 
         world = new World(camera);
         world.regenerate();
+
+        if(Plataformer.DEBUG) {
+            Gdx.input.setInputProcessor(new InputAdapter(){
+                @Override
+                public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                    world.getPlayer().getComponent(TransformComponent.class).position.set(screenX, Gdx.graphics.getHeight() - screenY);
+                    world.getPlayer().getComponent(RigidBodyComponent.class).velocity.set(0,0);
+                    return true;
+                }
+            });
+        }
     }
 
     @Override

@@ -4,8 +4,10 @@ import br.com.expressobits.games.plataformer.Plataformer;
 import br.com.expressobits.games.plataformer.block.Block;
 import br.com.expressobits.games.plataformer.dictionary.Blocks;
 import br.com.expressobits.games.plataformer.entity.EntitiesFactory;
+import br.com.expressobits.games.plataformer.entity.system.MovementSystem;
 import br.com.expressobits.games.plataformer.entity.system.SpriteRenderSystem;
 import br.com.expressobits.games.plataformer.entity.system.TileRenderSystem;
+import com.artemis.Entity;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,9 +25,14 @@ public class World {
 
     private int seaLevel = 7;
 
+    private float gravity = -576;
+
+    private Entity player;
+
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigurationBuilder = new WorldConfigurationBuilder();
         worldConfigurationBuilder
+                .with(new MovementSystem(this))
                 .with(new TileRenderSystem(this,camera))
                 .with(new SpriteRenderSystem(camera));
 
@@ -35,7 +42,7 @@ public class World {
         }
         WorldConfiguration configuration = worldConfigurationBuilder.build();
         this.world = new com.artemis.World(configuration);
-        EntitiesFactory.createPlayer( world, 0, 0);
+        player = EntitiesFactory.createPlayer( world, 0, getHeight() * Block.TILE_SIZE);
     }
 
     /**
@@ -92,4 +99,13 @@ public class World {
     public EntityTrackerMainWindow getEntityTrackerMainWindow() {
         return entityTrackerMainWindow;
     }
+
+    public float getGravity() {
+        return gravity;
+    }
+
+    public Entity getPlayer() {
+        return player;
+    }
+
 }

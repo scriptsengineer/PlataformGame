@@ -1,6 +1,7 @@
 package br.com.expressobits.games.plataformer.entity;
 
 import br.com.expressobits.games.plataformer.entity.component.PlayerComponent;
+import br.com.expressobits.games.plataformer.entity.component.RigidBodyComponent;
 import br.com.expressobits.games.plataformer.entity.component.SpriteComponent;
 import br.com.expressobits.games.plataformer.entity.component.TransformComponent;
 import com.artemis.Entity;
@@ -26,6 +27,9 @@ public class EntitiesFactory {
 
         PlayerComponent playerComponent = new PlayerComponent();
         entityEdit.add(playerComponent);
+
+        RigidBodyComponent rigidBodyComponent = new RigidBodyComponent();
+        entityEdit.add(rigidBodyComponent);
 
         return entity;
     }
