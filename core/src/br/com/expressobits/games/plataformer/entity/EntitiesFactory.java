@@ -1,9 +1,6 @@
 package br.com.expressobits.games.plataformer.entity;
 
-import br.com.expressobits.games.plataformer.entity.component.PlayerComponent;
-import br.com.expressobits.games.plataformer.entity.component.RigidBodyComponent;
-import br.com.expressobits.games.plataformer.entity.component.SpriteComponent;
-import br.com.expressobits.games.plataformer.entity.component.TransformComponent;
+import br.com.expressobits.games.plataformer.entity.component.*;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntityEdit;
@@ -17,6 +14,7 @@ public class EntitiesFactory {
     private ComponentMapper<TransformComponent> mTransform;
     private ComponentMapper<SpriteComponent> mSpriteComponent;
     private ComponentMapper<RigidBodyComponent> mRigidBoddy;
+    private ComponentMapper<CollidableComponent> mCollidable;
 
     public int createPlayer(World world, float x, float y){
         int entity = world.create();
@@ -30,6 +28,8 @@ public class EntitiesFactory {
         PlayerComponent playerComponent = mPlayer.create(entity);
 
         RigidBodyComponent rigidBodyComponent = mRigidBoddy.create(entity);
+
+        CollidableComponent collidableComponent = mCollidable.create(entity);
 
         return entity;
     }
