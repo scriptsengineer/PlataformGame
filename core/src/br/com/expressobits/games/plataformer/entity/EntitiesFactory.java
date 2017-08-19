@@ -4,6 +4,7 @@ import br.com.expressobits.games.plataformer.entity.component.PlayerComponent;
 import br.com.expressobits.games.plataformer.entity.component.RigidBodyComponent;
 import br.com.expressobits.games.plataformer.entity.component.SpriteComponent;
 import br.com.expressobits.games.plataformer.entity.component.TransformComponent;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntityEdit;
 import com.artemis.World;
@@ -12,24 +13,23 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class EntitiesFactory {
 
-    public static Entity createPlayer(World world, float x, float y){
-        Entity entity = world.createEntity();
+    private ComponentMapper<PlayerComponent> mPlayer;
+    private ComponentMapper<TransformComponent> mTransform;
+    private ComponentMapper<SpriteComponent> mSpriteComponent;
+    private ComponentMapper<RigidBodyComponent> mRigidBoddy;
 
-        EntityEdit entityEdit = entity.edit();
+    public int createPlayer(World world, float x, float y){
+        int entity = world.create();
 
-        TransformComponent transformComponent = new TransformComponent();
+        TransformComponent transformComponent = mTransform.create(entity);
         transformComponent.position.set( x, y);
-        entityEdit.add(transformComponent);
 
-        SpriteComponent spriteComponent = new SpriteComponent();
+        SpriteComponent spriteComponent = mSpriteComponent.create(entity);
         spriteComponent.sprite = new Sprite(new Texture("player/player.png"));
-        entityEdit.add(spriteComponent);
 
-        PlayerComponent playerComponent = new PlayerComponent();
-        entityEdit.add(playerComponent);
+        PlayerComponent playerComponent = mPlayer.create(entity);
 
-        RigidBodyComponent rigidBodyComponent = new RigidBodyComponent();
-        entityEdit.add(rigidBodyComponent);
+        RigidBodyComponent rigidBodyComponent = mRigidBoddy.create(entity);
 
         return entity;
     }

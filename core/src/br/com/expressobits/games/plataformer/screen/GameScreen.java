@@ -8,6 +8,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -17,17 +18,16 @@ public class GameScreen extends ScreenAdapter {
 
     protected OrthographicCamera camera;
 
-    protected Viewport viewport;
-
     protected World world;
+
+    protected final Vector3 screenCoordinate = new Vector3();
 
     @Override
     public void show() {
         batch = new SpriteBatch();
 
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera = new OrthographicCamera(Plataformer.SCREEN_WIDTH, Plataformer.SCREEN_HEIGHT);
         camera.setToOrtho(false);
-        viewport = new FillViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),camera);
 
         world = new World(camera);
         world.regenerate();
@@ -36,8 +36,13 @@ public class GameScreen extends ScreenAdapter {
             Gdx.input.setInputProcessor(new InputAdapter(){
                 @Override
                 public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                    world.getPlayer().getComponent(TransformComponent.class).position.set(screenX, Gdx.graphics.getHeight() - screenY);
-                    world.getPlayer().getComponent(RigidBodyComponent.class).velocity.set(0,0);
+                    screenCoordinate.set(screenX, screenY, 0);
+                    //Este método modifica os valores de Vector3 de valores de mouse clicado para valores do mundo
+                    camera.unproject(screenCoordinate);
+
+                    int player = world.getPlayer();
+                    world.getWorld().getEntity(player).getComponent(TransformComponent.class).position.set(screenCoordinate.x, screenCoordinate.y);
+                    world.getWorld().getEntity(player).getComponent(RigidBodyComponent.class).velocity.set(0,0);
                     return true;
                 }
             });
@@ -66,7 +71,6 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        viewport.update(width,height);
     }
 
     @Override

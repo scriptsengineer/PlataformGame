@@ -18,6 +18,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import net.namekdev.entity_tracker.EntityTracker;
 import net.namekdev.entity_tracker.ui.EntityTrackerMainWindow;
 
+import java.util.Random;
+
 public class World {
 
     private EntityTrackerMainWindow entityTrackerMainWindow;
@@ -29,7 +31,9 @@ public class World {
 
     private float gravity = -576;
 
-    private Entity player;
+    private EntitiesFactory entitiesFactory;
+
+    private int player;
 
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigurationBuilder = new WorldConfigurationBuilder();
@@ -46,13 +50,17 @@ public class World {
         }
         WorldConfiguration configuration = worldConfigurationBuilder.build();
         this.world = new com.artemis.World(configuration);
-        player = EntitiesFactory.createPlayer( world, 0, getHeight() * Block.TILE_SIZE);
+        entitiesFactory = new EntitiesFactory();
+        world.inject(entitiesFactory);
+        player = entitiesFactory.createPlayer( world, 0, getHeight() * Block.TILE_SIZE);
     }
 
     /**
      * Algoritmo que gera o world
      */
     public void regenerate(){
+
+        Random random = new Random();
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 for(int l = 0; l < getLayers(); l++){
@@ -108,8 +116,11 @@ public class World {
         return gravity;
     }
 
-    public Entity getPlayer() {
+    public int getPlayer() {
         return player;
     }
 
+    public com.artemis.World getWorld() {
+        return world;
+    }
 }
