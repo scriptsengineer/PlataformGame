@@ -5,6 +5,7 @@ import br.com.expressobits.games.plataformer.block.Block;
 import br.com.expressobits.games.plataformer.dictionary.Blocks;
 import br.com.expressobits.games.plataformer.entity.EntitiesFactory;
 import br.com.expressobits.games.plataformer.entity.system.MovementSystem;
+import br.com.expressobits.games.plataformer.entity.system.PlayerControllerSystem;
 import br.com.expressobits.games.plataformer.entity.system.SpriteRenderSystem;
 import br.com.expressobits.games.plataformer.entity.system.TileRenderSystem;
 import com.artemis.Entity;
@@ -38,6 +39,7 @@ public class World {
     public World(OrthographicCamera camera){
         WorldConfigurationBuilder worldConfigurationBuilder = new WorldConfigurationBuilder();
         worldConfigurationBuilder
+                .with(new PlayerControllerSystem())
                 .with(new MovementSystem(this))
                 .with(new TileRenderSystem(this,camera))
                 .with(new SpriteRenderSystem(camera));

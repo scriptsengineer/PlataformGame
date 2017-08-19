@@ -30,6 +30,7 @@ public class GameScreen extends ScreenAdapter {
         world = new World(camera);
         world.regenerate();
 
+        /*
         if(Plataformer.DEBUG) {
             Gdx.input.setInputProcessor(new InputAdapter(){
                 @Override
@@ -45,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             });
         }
+        */
     }
 
     @Override

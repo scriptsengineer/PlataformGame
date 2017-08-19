@@ -15,6 +15,7 @@ public class EntitiesFactory {
     private ComponentMapper<SpriteComponent> mSpriteComponent;
     private ComponentMapper<RigidBodyComponent> mRigidBoddy;
     private ComponentMapper<CollidableComponent> mCollidable;
+    private ComponentMapper<JumpComponent> mJump;
 
     public int createPlayer(World world, float x, float y){
         int entity = world.create();
@@ -30,6 +31,8 @@ public class EntitiesFactory {
         RigidBodyComponent rigidBodyComponent = mRigidBoddy.create(entity);
 
         CollidableComponent collidableComponent = mCollidable.create(entity);
+
+        JumpComponent jumpComponent = mJump.create(entity);
 
         return entity;
     }
