@@ -26,7 +26,7 @@ public class World {
     private EntityTrackerMainWindow entityTrackerMainWindow;
     private int[][][] map = new int[80][45][2];
 
-    private com.artemis.World world;
+    private com.artemis.World artemis;
 
     private int seaLevel = 7;
 
@@ -51,10 +51,10 @@ public class World {
             }
         }
         WorldConfiguration configuration = worldConfigurationBuilder.build();
-        this.world = new com.artemis.World(configuration);
+        this.artemis = new com.artemis.World(configuration);
         entitiesFactory = new EntitiesFactory();
-        world.inject(entitiesFactory);
-        player = entitiesFactory.createPlayer( world, 0, getHeight() * Block.TILE_SIZE);
+        artemis.inject(entitiesFactory);
+        player = entitiesFactory.createPlayer( artemis, 0, getHeight() * Block.TILE_SIZE);
     }
 
     /**
@@ -81,12 +81,16 @@ public class World {
     }
 
     public void update(float deltaTime) {
-        world.setDelta(deltaTime);
-        world.process();
+        artemis.setDelta(deltaTime);
+        artemis.process();
     }
 
     public Block getBlock(int x, int y, int layer){
         return Blocks.getBlockById(map[x][y][layer]);
+    }
+
+    public Block getBlock(float x,float y,int layer) {
+        return Blocks.getBlockById(map[worldToMap(x)][worldToMap(y)][layer]);
     }
 
     public int getWidth(){
@@ -109,7 +113,11 @@ public class World {
      * Desaloca recursos
      */
     public void dispose(){
+        artemis.dispose();
+    }
 
+    public boolean isValid(int x, int y){
+        return x >= 0 && x < getWidth() && y >= 0 && y < getHeight();
     }
 
     public EntityTrackerMainWindow getEntityTrackerMainWindow() {
@@ -124,7 +132,15 @@ public class World {
         return player;
     }
 
-    public com.artemis.World getWorld() {
-        return world;
+    public com.artemis.World getArtemis() {
+        return artemis;
+    }
+
+    public static float mapToWorld(int mapCoordinate){
+        return mapCoordinate * Block.TILE_SIZE;
+    }
+
+    public static int worldToMap(float worldCoordinate){
+        return (int) worldCoordinate / Block.TILE_SIZE;
     }
 }

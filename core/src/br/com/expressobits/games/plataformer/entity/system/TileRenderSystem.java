@@ -47,7 +47,7 @@ public class TileRenderSystem extends BaseSystem{
                 texture = world.getBlock(x,y,0).texture;
 
                 if (texture != null) {
-                    batch.draw(texture, x * Block.TILE_SIZE, y * Block.TILE_SIZE);
+                    batch.draw(texture, World.mapToWorld(x), World.mapToWorld(y));
                 }
             }
         }
@@ -61,7 +61,7 @@ public class TileRenderSystem extends BaseSystem{
                 texture = world.getBlock(x,y,0).texture;
 
                 if (texture != null) {
-                    batch.draw(texture, x * Block.TILE_SIZE, y * Block.TILE_SIZE);
+                    batch.draw(texture,World.mapToWorld(x), World.mapToWorld(y));
                 }
             }
         }

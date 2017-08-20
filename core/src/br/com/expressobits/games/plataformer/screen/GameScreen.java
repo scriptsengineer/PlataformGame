@@ -41,8 +41,8 @@ public class GameScreen extends ScreenAdapter {
                     camera.unproject(screenCoordinate);
 
                     int player = world.getPlayer();
-                    world.getWorld().getEntity(player).getComponent(TransformComponent.class).position.set(screenCoordinate.x, screenCoordinate.y);
-                    world.getWorld().getEntity(player).getComponent(RigidBodyComponent.class).velocity.set(0,0);
+                    world.getArtemis().getEntity(player).getComponent(TransformComponent.class).position.set(screenCoordinate.x, screenCoordinate.y);
+                    world.getArtemis().getEntity(player).getComponent(RigidBodyComponent.class).velocity.set(0,0);
                     return true;
                 }
             });
@@ -71,9 +71,9 @@ public class GameScreen extends ScreenAdapter {
 
                 camera.unproject(screenCoordinate);
 
-                world.getWorld().getEntity(world.getPlayer()).getComponent(TransformComponent.class).position.
+                world.getArtemis().getEntity(world.getPlayer()).getComponent(TransformComponent.class).position.
                         set(screenCoordinate.x, screenCoordinate.y);
-                world.getWorld().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.
+                world.getArtemis().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.
                         set(Vector2.Zero);
             }
         }
