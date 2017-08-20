@@ -1,6 +1,7 @@
 package br.com.expressobits.games.plataformer.entity;
 
 import br.com.expressobits.games.plataformer.entity.component.*;
+import br.com.expressobits.games.plataformer.resource.Assets;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntityEdit;
@@ -24,7 +25,7 @@ public class EntitiesFactory {
         transformComponent.position.set( x, y);
 
         SpriteComponent spriteComponent = mSpriteComponent.create(entity);
-        spriteComponent.sprite = new Sprite(new Texture("player/player.png"));
+        spriteComponent.sprite = new Sprite(Assets.manager.get(Assets.player));
 
         PlayerComponent playerComponent = mPlayer.create(entity);
 

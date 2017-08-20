@@ -70,8 +70,10 @@ public class World {
                         map[x][y][l] = Blocks.getIdByBlock(Blocks.OBSIDIAN);
                     }else if(y< getSeaLevel() - 2){
                         map[x][y][l] = Blocks.getIdByBlock(Blocks.COBBLESTONE);
-                    }else if(y < getSeaLevel()){
+                    }else if(y < getSeaLevel() -1 ){
                         map[x][y][l] = Blocks.getIdByBlock(Blocks.DIRT);
+                    }else if(y < getSeaLevel() ){
+                        map[x][y][l] = Blocks.getIdByBlock(Blocks.GRASS);
                     }
                 }
             }

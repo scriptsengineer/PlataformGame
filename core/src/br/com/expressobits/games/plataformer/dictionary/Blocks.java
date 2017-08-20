@@ -1,6 +1,7 @@
 package br.com.expressobits.games.plataformer.dictionary;
 
 import br.com.expressobits.games.plataformer.block.Block;
+import br.com.expressobits.games.plataformer.resource.Assets;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.IntMap;
 
@@ -18,6 +19,8 @@ public class Blocks {
 
     public static final Block OBSIDIAN;
 
+    public static final Block GRASS;
+
     public static Block getBlockById(int id){
         return REGISTRY.get(id);
     }
@@ -34,9 +37,10 @@ public class Blocks {
 
     static {
         AIR = register(AIR_ID,new Block(null));
-        DIRT = register(1,new Block(new Texture("blocks/dirt.png")));
-        COBBLESTONE = register(2,new Block(new Texture("blocks/cobblestone.png")));
-        OBSIDIAN = register(3,new Block(new Texture("blocks/obsidian.png")));
+        DIRT = register(1,new Block(Assets.manager.get(Assets.dirt)));
+        COBBLESTONE = register(2,new Block(Assets.manager.get(Assets.cobblestone)));
+        OBSIDIAN = register(3,new Block(Assets.manager.get(Assets.obsidian)));
+        GRASS = register(4,new Block(Assets.manager.get(Assets.grass)));
     }
 
 }

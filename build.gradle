@@ -8,6 +8,7 @@ buildscript {
         artemisVersion = '2.1.0'
         artemisEntityTracker = '0.4.0-SNAPSHOT'
         aiVersion = '1.8.1'
+        gdxUtilsVersion = '0.13.4'
     }
 
     repositories {
@@ -71,7 +72,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        //compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         
@@ -119,23 +120,6 @@ project(":ios") {
     }
 }
 
-project(":html") {
-    apply plugin: "gwt"
-    apply plugin: "war"
-
-
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion:sources"
-        
-    }
-}
-
 project(":core") {
     apply plugin: "java"
 
@@ -146,6 +130,7 @@ project(":core") {
         compile "net.onedaybeard.artemis:artemis-odb:$artemisVersion"
         compile "net.namekdev.entity_tracker:artemis-entity-tracker-gui:$artemisEntityTracker"
         compile "net.namekdev.entity_tracker:artemis-entity-tracker:$artemisEntityTracker"
+        compile "net.dermetfan.libgdx-utils:libgdx-utils:$gdxUtilsVersion"
     }
 
     idea{

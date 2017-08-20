@@ -1,6 +1,8 @@
 package br.com.expressobits.games.plataformer;
 
+import br.com.expressobits.games.plataformer.resource.Assets;
 import br.com.expressobits.games.plataformer.screen.GameScreen;
+import br.com.expressobits.games.plataformer.screen.PreloadScreen;
 import br.com.expressobits.games.plataformer.world.World;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -25,7 +27,7 @@ public class Plataformer extends Game {
 
 	@Override
 	public void create() {
-		this.setScreen(new GameScreen());
+		this.setScreen(new PreloadScreen());
 	}
 
 	public static Plataformer getInstance() {
@@ -33,5 +35,11 @@ public class Plataformer extends Game {
 			instance = new Plataformer();
 		}
 		return instance;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		Assets.manager.dispose();
 	}
 }
