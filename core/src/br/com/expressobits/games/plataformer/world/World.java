@@ -4,10 +4,7 @@ import br.com.expressobits.games.plataformer.Plataformer;
 import br.com.expressobits.games.plataformer.block.Block;
 import br.com.expressobits.games.plataformer.dictionary.Blocks;
 import br.com.expressobits.games.plataformer.entity.EntitiesFactory;
-import br.com.expressobits.games.plataformer.entity.system.MovementSystem;
-import br.com.expressobits.games.plataformer.entity.system.PlayerControllerSystem;
-import br.com.expressobits.games.plataformer.entity.system.SpriteRenderSystem;
-import br.com.expressobits.games.plataformer.entity.system.TileRenderSystem;
+import br.com.expressobits.games.plataformer.entity.system.*;
 import com.artemis.Entity;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
@@ -45,6 +42,10 @@ public class World {
                 .with(new SpriteRenderSystem(camera));
 
         if(Plataformer.DEBUG){
+            worldConfigurationBuilder.with(new CollisionDebugSystem(camera));
+
+
+
             if(Gdx.app.getType().equals(Application.ApplicationType.Desktop)){
                 entityTrackerMainWindow = new EntityTrackerMainWindow(false,false);
                 worldConfigurationBuilder.with(new EntityTracker(entityTrackerMainWindow));

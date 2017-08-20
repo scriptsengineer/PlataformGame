@@ -40,9 +40,12 @@ public class MovementSystem extends IteratingSystem {
         // SO + vt
         transformComponent.position.mulAdd(rigidBodyComponent.velocity, delta);
 
-        rigidBodyComponent.velocity.add(0, world.getGravity() * delta);
+        rigidBodyComponent.velocity.y +=  world.getGravity() * delta;
 
-        if(collidableComponent != null) {
+        if(mCollidable.has(entityId)) {
+
+            collidableComponent.collisionBox.setCenter(transformComponent.position);
+
             if(transformComponent.position.y < world.getSeaLevel() * Block.TILE_SIZE){
                 rigidBodyComponent.velocity.y = 0;
                 transformComponent.position.y = world.getSeaLevel() * Block.TILE_SIZE;

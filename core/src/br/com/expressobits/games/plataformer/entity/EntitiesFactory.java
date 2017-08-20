@@ -8,6 +8,9 @@ import com.artemis.EntityEdit;
 import com.artemis.World;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+
+import javax.xml.soap.Text;
 
 public class EntitiesFactory {
 
@@ -24,6 +27,8 @@ public class EntitiesFactory {
         TransformComponent transformComponent = mTransform.create(entity);
         transformComponent.position.set( x, y);
 
+        Texture texture = Assets.manager.get(Assets.player);
+
         SpriteComponent spriteComponent = mSpriteComponent.create(entity);
         spriteComponent.sprite = new Sprite(Assets.manager.get(Assets.player));
 
@@ -32,6 +37,8 @@ public class EntitiesFactory {
         RigidBodyComponent rigidBodyComponent = mRigidBoddy.create(entity);
 
         CollidableComponent collidableComponent = mCollidable.create(entity);
+        collidableComponent.collisionBox.setSize(texture.getWidth(),texture.getHeight());
+        collidableComponent.collisionBox.setCenter(new Vector2(x, y));
 
         JumpComponent jumpComponent = mJump.create(entity);
 
