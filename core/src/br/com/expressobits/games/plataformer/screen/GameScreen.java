@@ -8,6 +8,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameScreen extends ScreenAdapter {
@@ -63,6 +64,17 @@ public class GameScreen extends ScreenAdapter {
                         world.getEntityTrackerMainWindow().setVisible(!world.getEntityTrackerMainWindow().isVisible());
                     }
                 }
+            }
+
+            if(Gdx.app.getInput().isTouched()){
+                screenCoordinate.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+
+                camera.unproject(screenCoordinate);
+
+                world.getWorld().getEntity(world.getPlayer()).getComponent(TransformComponent.class).position.
+                        set(screenCoordinate.x, screenCoordinate.y);
+                world.getWorld().getEntity(world.getPlayer()).getComponent(RigidBodyComponent.class).velocity.
+                        set(Vector2.Zero);
             }
         }
 

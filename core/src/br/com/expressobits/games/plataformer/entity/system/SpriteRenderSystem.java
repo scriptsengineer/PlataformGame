@@ -6,6 +6,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SpriteRenderSystem extends IteratingSystem{
@@ -39,15 +40,26 @@ public class SpriteRenderSystem extends IteratingSystem{
         TransformComponent transformComponent = mTransform.get(entityId);
         SpriteComponent spriteComponent = mSprite.get(entityId);
 
+        Sprite sprite = spriteComponent.sprite;
+
         if(transformComponent.originCenter){
-            spriteComponent.sprite.setOriginCenter();
+            sprite.setOriginCenter();
         }else {
-            spriteComponent.sprite.setOrigin(transformComponent.origin.x, transformComponent.origin.y);
+            sprite.setOrigin(transformComponent.origin.x, transformComponent.origin.y);
         }
-        spriteComponent.sprite.setScale(transformComponent.scaleX, transformComponent.scaleY);
-        spriteComponent.sprite.setRotation(transformComponent.rotation);
-        spriteComponent.sprite.setPosition(transformComponent.position.x, transformComponent.position.y);
-        spriteComponent.sprite.draw(batch);
+        sprite.setScale(transformComponent.scaleX, transformComponent.scaleY);
+        sprite.setRotation(transformComponent.rotation);
+        sprite.setPosition(transformComponent.position.x, transformComponent.position.y);
+
+        batch.draw(sprite.getTexture(),
+                sprite.getX() - sprite.getOriginX(), sprite.getY() - sprite.getOriginY(),
+                sprite.getOriginX(), sprite.getOriginY(),
+                sprite.getWidth(), sprite.getHeight(),
+                sprite.getScaleX(), sprite.getScaleY(),
+                sprite.getRotation(),
+                sprite.getRegionX(), sprite.getRegionY(),
+                sprite.getRegionWidth(), sprite.getRegionHeight(),
+                spriteComponent.flipX, spriteComponent.flipY);
 
     }
 
