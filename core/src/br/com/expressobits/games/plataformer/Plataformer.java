@@ -18,10 +18,14 @@ public class Plataformer extends Game {
 
 	private static Plataformer instance;
 
+	public static final String NAME = "Plataform Game";
+
 	public static final boolean DEBUG = true;
 
 	public static final int SCREEN_WIDTH = 1280;
 	public static final int SCREEN_HEIGHT = 720;
+
+	FPSLogger fpsLogger = new FPSLogger(NAME,true,false);
 
 	private Plataformer(){}
 
@@ -35,6 +39,14 @@ public class Plataformer extends Game {
 			instance = new Plataformer();
 		}
 		return instance;
+	}
+
+	@Override
+	public void render() {
+		super.render();
+		if(DEBUG){
+			fpsLogger.log();
+		}
 	}
 
 	@Override
