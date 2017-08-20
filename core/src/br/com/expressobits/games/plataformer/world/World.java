@@ -63,18 +63,25 @@ public class World {
     public void regenerate(){
 
         Random random = new Random();
+
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 for(int l = 0; l < getLayers(); l++){
+                    Block block = null;
                     if(y < getSeaLevel() - 5){
-                        map[x][y][l] = Blocks.getIdByBlock(Blocks.OBSIDIAN);
+                        block = Blocks.OBSIDIAN;
                     }else if(y< getSeaLevel() - 2){
-                        map[x][y][l] = Blocks.getIdByBlock(Blocks.COBBLESTONE);
-                    }else if(y < getSeaLevel() -1 ){
-                        map[x][y][l] = Blocks.getIdByBlock(Blocks.DIRT);
-                    }else if(y < getSeaLevel() ){
-                        map[x][y][l] = Blocks.getIdByBlock(Blocks.GRASS);
+                        block = Blocks.COBBLESTONE;
+                    }else if(y < getSeaLevel()){
+                        block = Blocks.DIRT;
+                    }else {
+                        if(l == 0){
+                            block = Blocks.DIRT;
+                        }else {
+                            block = random.nextInt(100) < 10 ? Blocks.DIRT : Blocks.AIR;
+                        }
                     }
+                    map[x][y][l] = Blocks.getIdByBlock(block);
                 }
             }
         }
