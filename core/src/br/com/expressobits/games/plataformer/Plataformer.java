@@ -7,6 +7,7 @@ import br.com.expressobits.games.plataformer.world.World;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -46,6 +47,12 @@ public class Plataformer extends Game {
 		super.render();
 		if(DEBUG){
 			fpsLogger.log();
+
+			if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+				if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)){
+					getInstance().getScreen().show();
+				}
+			}
 		}
 	}
 
