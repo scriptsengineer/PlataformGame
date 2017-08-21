@@ -50,6 +50,7 @@ public class Plataformer extends Game {
 
 			if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
 				if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)){
+					//Este método re-chama todos métodos e instâncias da tela exibida
 					getInstance().getScreen().show();
 				}
 			}
