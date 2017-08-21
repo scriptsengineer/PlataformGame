@@ -3,13 +3,16 @@ package br.com.expressobits.games.plataformer.entity.system;
 import br.com.expressobits.games.plataformer.entity.component.CollidableComponent;
 import br.com.expressobits.games.plataformer.entity.component.RigidBodyComponent;
 import br.com.expressobits.games.plataformer.entity.component.TransformComponent;
+import br.com.expressobits.games.plataformer.world.World;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 
@@ -25,10 +28,13 @@ public class CollisionDebugSystem extends IteratingSystem{
 
     ShapeRenderer shapeRenderer;
 
-    public CollisionDebugSystem(Camera camera) {
+    World world;
+
+    public CollisionDebugSystem(Camera camera, World world) {
         super(Aspect.all(TransformComponent.class, RigidBodyComponent.class, CollidableComponent.class));
         this.camera = camera;
         shapeRenderer = new ShapeRenderer();
+        this.world = world;
     }
 
     @Override
@@ -36,11 +42,31 @@ public class CollisionDebugSystem extends IteratingSystem{
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeType.Line);
 
+        shapeRenderer.setColor(Color.YELLOW);
+
+        Array<Rectangle> rects = new Array<Rectangle>();
+        Rectangle collisionBox = world.getArtemis().getEntity(world.getPlayer()).getComponent(CollidableComponent.class).collisionBox;
+
+        world.getTilesRectangle(collisionBox.x,collisionBox.y,collisionBox.x+collisionBox.width, collisionBox.y+collisionBox.height, rects);
+
+
+        Rectangle rectangle;
+        for(int x = 0; x < world.getWidth(); x++){
+            for(int y = 0; y < world.getHeight(); y++){
+                rectangle = world.getTileRectangle(x, y);
+                if(rectangle!=null){
+
+                    shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+                }
+            }
+        }
+
     }
 
     @Override
     protected void end() {
         shapeRenderer.end();
+
     }
 
     @Override

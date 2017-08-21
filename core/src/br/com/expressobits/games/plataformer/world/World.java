@@ -13,12 +13,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import net.namekdev.entity_tracker.EntityTracker;
 import net.namekdev.entity_tracker.ui.EntityTrackerMainWindow;
 
 import java.util.Random;
 
 public class World {
+
+    public static final int BACKGROUND = 0;
+    public static final int FOREGROUND = 1;
 
     private EntityTrackerMainWindow entityTrackerMainWindow;
     private int[][][] map = new int[80][45][2];
@@ -42,7 +47,7 @@ public class World {
                 .with(new SpriteRenderSystem(camera));
 
         if(Plataformer.DEBUG){
-            worldConfigurationBuilder.with(new CollisionDebugSystem(camera));
+            worldConfigurationBuilder.with(new CollisionDebugSystem(camera,this));
 
 
 
@@ -98,7 +103,42 @@ public class World {
     }
 
     public Block getBlock(float x,float y,int layer) {
-        return Blocks.getBlockById(map[worldToMap(x)][worldToMap(y)][layer]);
+        return getBlock(worldToMap(x),worldToMap(y),layer);
+    }
+
+    public boolean isSolid(int x, int y) {
+        return isValid(x, y) && getBlock(x, y, FOREGROUND).isSolid();
+    }
+
+    public boolean isSolid(float x, float y) {
+        return isSolid(worldToMap(x), worldToMap(y));
+    }
+
+    public Rectangle getTileRectangle(int x, int y){
+        Rectangle rectangle = null;
+
+        if(isSolid(x, y)){
+            rectangle = new Rectangle(mapToWorld(x), mapToWorld(y),Block.TILE_SIZE, Block.TILE_SIZE);
+        }
+
+        return rectangle;
+    }
+
+    public void getTilesRectangle(float startX, float startY, float endX, float endY, Array<Rectangle> tileRectangles){
+        getTilesRectangle(worldToMap(startX),worldToMap(startY),worldToMap(endX),worldToMap(endY),tileRectangles);
+    }
+
+    public void getTilesRectangle(int startX, int startY, int endX, int endY, Array<Rectangle> tileRectangles){
+        Rectangle rectangle;
+
+        for(int y = startY; y <= endY; y++ ){
+            for(int x = startX; x <= endX; x++ ){
+                rectangle = getTileRectangle(x,y);
+                if(rectangle !=null){
+                    tileRectangles.add(rectangle);
+                }
+            }
+        }
     }
 
     public int getWidth(){
